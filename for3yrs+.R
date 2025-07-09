@@ -41,7 +41,8 @@ d1[, htpct := fcase(
     zht < 0.33724, 50,
     zht < 0.97802, 75,
     zht < 1.4632, 90,
-    default = 95
+    zht >= 1.4632, 95,
+    default = NA
 )]
 
 # 5. Merge with blood pressure reference data
@@ -56,7 +57,7 @@ d2[, hbp_ch := fcase(
         (sbp90 >= 120 & msbp < sbp95) | (mdbp >= 80 & mdbp < dbp95), 2,
     (sbp95 <= msbp & msbp < sbp99 + 5) | (dbp95 <= mdbp & mdbp < dbp99 + 5), 3,
     msbp >= sbp99 + 5 | mdbp >= dbp99 + 5, 4,
-    default = NA  # Handle missing values if needed
+    default = NA
 )]
 
 # 6.2 Adolescent BP grading
@@ -66,7 +67,7 @@ d2[, hbp_ad := fcase(
     (140 <= msbp & msbp < 160) | (90 <= mdbp & mdbp < 100), 3,
     (160 <= msbp & msbp < 180) | (100 <= mdbp & mdbp < 110), 4,
     msbp >= 180 | mdbp >= 110, 5,
-    default = NA  # Handle missing values if needed
+    default = NA  
 )]
 
 # 7. Determine final BP grade (age-specific)
